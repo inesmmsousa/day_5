@@ -31,7 +31,7 @@ class Test(unittest.TestCase):
         self.assertEqual(1, codons_table.lst_data[21][21])
         
         self.assertEqual(0, codons_table.lst_data[0][63])
-        codons_table.count_codons_by_sequence('AAACCC')
+        codons_table.count_codons_by_sequence('AAATTT')
         self.assertEqual(1, codons_table.lst_data[0][63])
         codons_table.count_codons_by_sequence('AAATTTC')  
         self.assertEqual(2, codons_table.lst_data[0][63])
@@ -46,6 +46,7 @@ class Test(unittest.TestCase):
         
         self.assertEqual(0, codons_table.lst_data[63][0])
         codons_table.count_pair_codons('T', 'T', 'T', 'A', 'A', 'A')
+        self.assertEqual(0, codons_table.lst_data[63][0])
         
         self.assertEqual(0, codons_table.lst_data[63][63])
         codons_table.count_pair_codons('T', 'T', 'T', 'T', 'T', 'T')
@@ -66,8 +67,16 @@ class Test(unittest.TestCase):
         self.assertEqual(63, codons_table.get_pos_codon('T', 'T', 'T'))
         self.assertEqual(3, codons_table.get_pos_codon('A', 'A', 'T'))
         self.assertEqual(15, codons_table.get_pos_codon('A', 'T', 'T'))
-        
+        self.assertEqual(21, codons_table.get_pos_codon('C', 'C', 'C'))
 
+    def test_get_codon_by_number(self):
+        codons_table = CodonsTable()
+        self.assertEqual('AAA', codons_table.get_codon_by_number(0))
+        self.assertEqual('AAA', codons_table.get_codon_by_number(64))
+        self.assertEqual('AAC', codons_table.get_codon_by_number(1))
+        self.assertEqual('TTT', codons_table.get_codon_by_number(63))
+        self.assertEqual('CCC', codons_table.get_codon_by_number(21))
+        self.assertEqual('ATT', codons_table.get_codon_by_number(15))
 if __name__ == "__main__":
     #import sys;sys.argv = ['', 'Test.test_count_codons_by_sequence']
     unittest.main()
